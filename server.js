@@ -1,9 +1,11 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const http = require("http");
 const mongodb = require("mongodb");
 
 let db;
-const connectionString =
-    "mongodb+srv://John:MS9rm7BBeNbjnpLD@cluster0.gmbdcan.mongodb.net/REJA?retryWrites=true&w=majority&appName=AtlasApp";
+const connectionString = process.env.MONGO_URL;
 mongodb.connect(
     connectionString,
     { useNewUrlParser: true, useUnifiedTopology: true },
@@ -15,7 +17,7 @@ mongodb.connect(
             module.exports = client;
             const app = require("./app");
             const server = http.createServer(app);
-            let PORT = 3000;
+            let PORT = process.env.PORT || 3003;
             server.listen(PORT, function () {
                 console.log(
                     `The server is running successfully on port:${PORT}, http://localhost:${PORT}`
