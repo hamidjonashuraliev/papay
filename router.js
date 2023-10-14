@@ -1,15 +1,23 @@
 const express = require("express");
 const router = express.Router();
+const memberController = require("./controllers/memberController");
 
-router.get("/", function(req, res) {
-    res.send("home sahifasidasiz");
-});
+//memberga daxldor routers
+router.get("/", memberController.home);
+router.post("/signup", memberController.signup);
+router.post("/login", memberController.login);
+router.get("/logout", memberController.logout);
 
+
+
+
+
+//boshqa routerlar
 router.get("/menu", (req, res) => {
     res.send("Menu sahifasidasiz");
 });
 
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
     res.end("home sahifasidasiz");
 });
 
