@@ -1,10 +1,7 @@
 console.log("Web serverni boshlash");
 const express = require("express");
 const app = express();
-const router = require("./router");
-
-const db = require("./server").db();
-const mongodb = require("mongodb");
+const router = require("./router.js");
 
 // 1: KIrish code
 app.use(express.static("public"));
