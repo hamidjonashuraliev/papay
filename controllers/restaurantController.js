@@ -1,3 +1,4 @@
+// This controller handles various functionalities related to restaurant management and authentication.
 let restaurantController = module.exports;
 const Member = require("../models/Member");
 
@@ -6,7 +7,7 @@ restaurantController.getMyRestaurantData = async (req, res) => {
         console.log("GET: controller/getMyRestaurantData");
         // TODO: Get my restaurant products
 
-        res.render("restaurant-menu");
+        res.render("restaurant-menu"); //  It renders (koʻrsatuvchi) a view called "restaurant-menu".
     } catch (error) {
         console.log(`Error, controller/getMyRestaurantData, ${error.message}`);
         res.json({ state: "fail", message: error.message });
@@ -16,7 +17,7 @@ restaurantController.getMyRestaurantData = async (req, res) => {
 restaurantController.getSignupMyRestaurant = async (req, res) => {
     try {
         console.log("GET: controller/getSignupMyRestaurant");
-        res.render("signup");
+        res.render("signup"); // An async function that simply renders a signup page for restaurants.
     } catch (error) {
         console.log(`Error, controller/signup, ${error.message}`);
         res.json({ state: "fail", message: error.message });
@@ -24,6 +25,7 @@ restaurantController.getSignupMyRestaurant = async (req, res) => {
 };
 
 restaurantController.signupProcess = async (req, res) => {
+    // After successful signup, the new member (restaurant) details are stored in the session and the user is redirected to the restaurant menu page.
     try {
         console.log("POST: controller/signup");
         const data = req.body,
@@ -39,6 +41,7 @@ restaurantController.signupProcess = async (req, res) => {
 };
 
 restaurantController.getLoginMyRestaurant = async (req, res) => {
+    // An async function that renders the login page for restaurants.
     try {
         console.log("GET: controller/getLoginMyRestaurant");
         res.render("login-page");
@@ -49,6 +52,7 @@ restaurantController.getLoginMyRestaurant = async (req, res) => {
 };
 
 restaurantController.loginProcess = async (req, res) => {
+    // This function handles the restaurant login process. Once logged in, the restaurant's details are saved in the session and then redirected to the menu page.
     try {
         console.log("POST: controller/login");
         const data = req.body,
@@ -72,6 +76,8 @@ restaurantController.logout = (req, res) => {
 };
 
 restaurantController.validateAuthRestaurant = (req, res, next) => {
+    // A middleware function that checks if the session exists and if the member type in the session is "RESTAURANT". If so, it assigns the session member details to req.member and calls next() to continue to the next middleware or function; otherwise, it sends an error response.
+    // It adds an extra layer of security, ensuring that only authenticated restaurants can access certain routes.
     if (req.session?.member?.mb_type === "RESTAURANT") {
         req.member = req.session.member;
         next();
@@ -84,6 +90,7 @@ restaurantController.validateAuthRestaurant = (req, res, next) => {
 };
 
 restaurantController.checkSessions = (req, res) => {
+    // Checks if the session has a member and responds with the member details if present, else responds with a failure message.
     if (req.session?.member) {
         res.json({ state: "succeed", data: req.session.member });
     } else {

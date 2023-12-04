@@ -45,6 +45,7 @@ app.use(function (req, res, next) {
 });
 
 //3 View codes (Configures the Express view engine:)
+// The integration with views as full-stack application, i.e Express with EJS view engine.
 app.set("views", "views"); // Sets the directory for the view templates to "views".
 app.set("view engine", "ejs"); // Sets the view engine to "ejs", which is a popular templating engine.
 

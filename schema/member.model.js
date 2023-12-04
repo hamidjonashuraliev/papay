@@ -6,9 +6,12 @@ const {
     ordinary_enums,
 } = require("../lib/config");
 
+// Schema Definition
 const memberSchema = new mongoose.Schema(
+    // The schema represents the structure of a document in the "Member" collection of MongoDB.
     {
         mb_nick: {
+            // A unique identifier (nickname) for the member.
             type: String,
             required: true,
             index: { unique: true, sparse: true },
@@ -21,13 +24,14 @@ const memberSchema = new mongoose.Schema(
         mb_password: {
             type: String,
             required: true,
-            select: false,
+            select: false, // ensures that when querying, the password won't be returned unless explicitly requested).
         },
         mb_type: {
             type: String,
             required: false,
             default: "USER",
             enum: {
+                // The use of enums ensures that certain fields have values restricted to a predefined set.
                 values: member_type_enums,
                 message: "{VALUE} is not among permitted values",
             },
@@ -92,7 +96,7 @@ const memberSchema = new mongoose.Schema(
             default: 0,
         },
     },
-    { timestamps: true }
+    { timestamps: true } // utility fields
 );
 
 module.exports = mongoose.model("Member", memberSchema);
