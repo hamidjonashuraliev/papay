@@ -1,8 +1,9 @@
+// Code defines a Mongoose schema for a MongoDB collection named "<Member>"
 const mongoose = require("mongoose");
 const {
     member_type_enums,
     member_status_enums,
-    ordernary_enums,
+    ordinary_enums,
 } = require("../lib/config");
 
 const memberSchema = new mongoose.Schema(
@@ -40,6 +41,10 @@ const memberSchema = new mongoose.Schema(
                 message: "{VALUE} is not among permitted values",
             },
         },
+        mb_full_name: {
+            type: String,
+            required: false,
+        },
         mb_address: {
             type: String,
             required: false,
@@ -62,7 +67,7 @@ const memberSchema = new mongoose.Schema(
             required: false,
             default: "N",
             enum: {
-                values: ordernary_enums,
+                values: ordinary_enums,
                 message: "{VALUE} is not among permitted values",
             },
         },
