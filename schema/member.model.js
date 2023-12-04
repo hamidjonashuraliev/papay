@@ -1,19 +1,21 @@
 const mongoose = require("mongoose");
-
-const memberSchema = new mongoose.Schema({
+const { member_type_enums, member_status_enums, ordernary_enums } =require("../lib/config");
+const memberSchema = new mongoose.Schema(
+    {
 mb_nick: {
     type: String,
     required: true,
-    index: {unique: true, sparse: true}
+    index: {unique: true, sparse: true},
 }, 
 mb_phone: {
     type: String,
-    required: true
+    required: true,
+    index: {unique: true, sparse: true},
 },
 mb_password: {
     type: String, 
     required: true,
-    selected: false
+    select: false,
 },
 mb_type: {
     type: String, 
@@ -42,7 +44,7 @@ mb_description: {
     required: false
 },
 mb_image: {
-    type: string,
+    type: String,
     required: false
 },
 mb_point: {
@@ -80,6 +82,8 @@ mb_subscriber_cnt: {
     default: 0
 },
 
-});
-{ timestamps: true } 
+}, 
+{ timestamps: true }
+);
+
 module.exports = mongoose.model("Member", memberSchema);

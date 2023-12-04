@@ -1,21 +1,29 @@
-let memberConteroller = module.exports;
 
-memberConteroller.home = (req, res) => {
-    console.log("GET cont.home");
-    res.send("home sahifasidasiz");
+const Member = require("../models/Member");
+let memberController = module.exports;
+
+memberController.signup = async (req, res) => {
+    try {
+        console.log("POST: cont/signup");
+        const data = req.body;
+        // console.log("body:::", req.body);
+
+        const member = new Member();
+        const new_member = await member.signupData(data);
+
+       res.json({state: "succeed", data: new_member});
+    } catch (err) {
+        console.log(`ERROR: cont/signup, ${err.message}`);
+        res.json({state: "fail", message: err.message});
+    }
 };
 
-memberConteroller.signup = (req, res) => {
-    console.log("POST cont.signup");
-    res.send("signup sahifasidasiz");
-};
-
-memberConteroller.login = (req, res) => {
-    console.log("Post cont.login");
+memberController.login = (req, res) => {
+    console.log("POST cont.login");
     res.send("login sahifasidasiz");
 };
 
-memberConteroller.logout = (req, res) => {
+memberController.logout = (req, res) => {
     console.log("GET cont.logout");
     res.send("logout sahifasidasiz");
 };

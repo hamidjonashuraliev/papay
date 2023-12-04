@@ -3,14 +3,9 @@ const router = express.Router();
 const memberController = require("./controllers/memberController");
 
 //memberga daxldor routers
-router.get("/", memberController.home);
 router.post("/signup", memberController.signup);
 router.post("/login", memberController.login);
 router.get("/logout", memberController.logout);
-
-
-
-
 
 //boshqa routerlar
 router.get("/menu", (req, res) => {
