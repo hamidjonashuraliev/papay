@@ -4,7 +4,7 @@ const memberController = require("./controllers/memberController");
 
 
 /********************************
- *            REST API          *
+ *      React REST API          *
  * ******************************/
 
 

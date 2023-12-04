@@ -12,8 +12,8 @@ class Member {
         try {
             const salt = await bcrypt.genSalt();
             input.mb_password = await bcrypt.hash(input.mb_password, salt);
-            const new_member = new this.memberModel(input);
 
+            const new_member = new this.memberModel(input);
             let result;
             try {
                 result = await new_member.save();
@@ -22,10 +22,12 @@ class Member {
                 throw new Error(Definer.auth_err1);
             }
 
+            console.log(result);
+
             result.mb_password = "";
             return result;
-        } catch (err) {
-            throw err;
+        } catch (error) {
+            throw error;
         }
     }
 
@@ -37,15 +39,19 @@ class Member {
                     { mb_nick: 1, mb_password: 1 }
                 )
                 .exec();
-            assert.ok(member, Definer.auth_err3);
+
+            assert.ok(member, Definer.err_auth3);
+
             const isMatch = await bcrypt.compare(
                 input.mb_password,
                 member.mb_password
             );
-            assert.ok(isMatch, Definer.auth_err4);
+            assert.ok(isMatch, Definer.err_auth4);
 
             return await this.memberModel
-                .findOne({ mb_nick: input.mb_nick })
+                .findOne({
+                    mb_nick: input.mb_nick,
+                })
                 .exec();
         } catch (err) {
             throw err;

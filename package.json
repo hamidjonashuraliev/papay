@@ -1,7 +1,7 @@
 {
     "name": "papay",
     "version": "1.0.0",
-    "description": "bu bizning dostavka loyihamiz",
+    "description": "This is  Food Delivery Project",
     "main": "server.js",
     "scripts": {
         "start": "node server.js",
@@ -9,16 +9,18 @@
         "train": "nodemon train.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "John",
+    "author": "Joseph",
     "license": "ISC",
     "dependencies": {
-        "assert": "^2.1.0",
+        "assert": "^2.0.0",
         "bcryptjs": "^2.4.3",
-        "dotenv": "^16.3.1",
+        "connect-mongodb-session": "^3.1.1",
+        "dotenv": "^16.0.0",
         "ejs": "^3.1.8",
-        "express": "^4.18.2",
+        "express": "^4.17.3",
+        "express-session": "^1.17.3",
         "mongodb": "^3.2.6",
         "mongoose": "^6.2.10",
-        "nodemon": "^3.0.1"
+        "nodemon": "^2.0.15"
     }
 }
