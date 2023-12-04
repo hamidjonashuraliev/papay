@@ -9,7 +9,7 @@
         "train": "nodemon train.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "Joseph",
+    "author": "John",
     "license": "ISC",
     "dependencies": {
         "assert": "^2.0.0",
@@ -21,6 +21,8 @@
         "express-session": "^1.17.3",
         "mongodb": "^3.2.6",
         "mongoose": "^6.2.10",
-        "nodemon": "^2.0.15"
+        "nodemon": "^2.0.15",
+        "multer": "^1.4.5-lts.1",
+        "uuid": "^8.3.2"
     }
 }
