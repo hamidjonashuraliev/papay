@@ -57,6 +57,7 @@ restaurantController.loginProcess = async (req, res) => {
 
         req.session.member = result;
         req.session.save(function () {
+            // ikkala joyga (browser va mongoDB) ham save qilgancha kut degani
             res.redirect("/resto/products/menu");
         });
     } catch (error) {

@@ -1,45 +1,55 @@
+// This code initializes a Node.js server using the Express framework and configures various middlewares, including session handling with MongoDB and routing.
+// Required Modules and Constants:
 console.log("Server started");
-const express = require("express");
-const app = express();
-const router = require("./router");
+const express = require("express"); // Imports the Express framework.
+const app = express(); // Creates an instance of an Express application.
+const router = require("./router"); // custom routers defined in files
 const router_bssr = require("./router_bssr");
 
+// MongoDB Session Store Configuration:
 let session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
+const MongoDBStore = require("connect-mongodb-session")(session); // class created to be used in app.use session object middleware
 const store = new MongoDBStore({
-    uri: process.env.MONGO_URL,
-    collection: "sessions",
+    // Initializes a new instance of the MongoDB session store, specifying the MongoDB connection URI and the collection name where the sessions will be stored
+    // object created from class to:
+    uri: process.env.MONGO_URL, // access to MongoDB
+    collection: "sessions", // creates a collection in MongoDB with such name
 });
 
+// Middleware Configuration. Configures the session middleware:
 //1 Entry codes
-app.use(express.static("public"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public")); // The server serves static files from the "public" directory.
+app.use(express.json()); // The server can parse JSON payloads from incoming requests.
+app.use(express.urlencoded({ extended: true })); // The server can parse URL-encoded payloads.
 
 //2 Session codes
 app.use(
     session({
-        secret: process.env.SESSION_SECRET,
+        secret: process.env.SESSION_SECRET, // Secret key for session hashing, stored in an environment variable.
         cookie: {
-            maxAge: 1000 * 60 * 30, //for 30 minutes
+            // properties (1) kamikadze (2) sticky and goes along with req and res objects
+            maxAge: 1000 * 60 * 30, // Cookie configuration, set to expire in 30 minutes.
         },
-        store: store,
-        resave: true,
-        saveUninitialized: true,
+        store: store, // Uses the MongoDB session store defined earlier. used both for saving data and letting connection to mongoDB data
+        resave: true, // Forces the session to be saved back to the session store even if the session was never modified during the request.
+        saveUninitialized: true, // Forces a session that is "uninitialized" to be saved to the store.
     })
 );
 
+// Session to Local Variable:
+// Sets the member from the session to the response's local variables. This is useful for making the session data accessible to view templates.
 app.use(function (req, res, next) {
-    res.locals.member = req.session.member;
-    next();
+    // middleware for assigning user credentials got from restorantController.signupProcess method (req.session.member = new_member(req.body) new_member = await member.signupData i.e multipurpose Member Service controller model)
+    res.locals.member = req.session.member; //locals is browser objects where veriables can be stored
+    next(); // moves to next logic, works in middlewares
 });
 
-//3 View codes
-app.set("views", "views");
-app.set("view engine", "ejs");
+//3 View codes (Configures the Express view engine:)
+app.set("views", "views"); // Sets the directory for the view templates to "views".
+app.set("view engine", "ejs"); // Sets the view engine to "ejs", which is a popular templating engine.
 
-//4 Routing codes - BSSR
-app.use("/resto", router_bssr);
-app.use("/", router);
+//4 Routing codes (Configures routes:)
+app.use("/resto", router_bssr); // Adminka routes
+app.use("/", router); // for React FE project
 
-module.exports = app;
+module.exports = app; // This exports the configured app instance, to be used by another module to start the server or for testing purposes.

@@ -6,12 +6,14 @@ const uuid = require("uuid");
 function getTargetImageStorage(address) {
     return multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, `./uploads/${address}`);
+            // where
+            cb(null, `./uploads/${address}`); //where to upload (members/community/products)
         },
         filename: function (req, file, cb) {
+            // what
             console.log(file);
-            const extension = path.parse(file.originalname).ext;
-            const random_name = uuid.v4() + extension;
+            const extension = path.parse(file.originalname).ext; //parsing file name to get extension
+            const random_name = uuid.v4() + extension; // generating random name
             cb(null, random_name);
         },
     });

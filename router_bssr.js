@@ -2,7 +2,7 @@ const express = require("express");
 const router_bssr = express.Router();
 const restaurantController = require("./controllers/restaurantController");
 const productController = require("./controllers/productController");
-const uploader_product = require("./utils/upload-multer")("products");
+const uploader_product = require("./utils/upload-multer")("products"); //object for product download. Later can be used for member, and community uploads
 
 /********************************
  *            BSSR EJS         *
