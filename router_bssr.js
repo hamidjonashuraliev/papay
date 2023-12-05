@@ -39,6 +39,11 @@ router_bssr.post(
     productController.updateChosenProduct
 );
 
+router_bssr.get(
+    "/all-restaurants",
+    restaurantController.validateAdmin,
+    restaurantController.getAllRestaurants
+);
 // other routers (methods)
 
 module.exports = router_bssr;

@@ -60,7 +60,7 @@
           </div>
         </div>
 
-        <form onsubmit="return validateForm()" action="/resto//products/create" method="POST"
+        <form onsubmit="return validateForm()" action="/resto/products/create" method="POST"
         class="dish_container" enctype="multipart/form-data">
         <div class="long_input" style="display: flex; align-items: center;">
           <span class="new_dish_txt">New Menu Item</span>
@@ -103,7 +103,7 @@
             <label>Volume</label>
             <select class="product_size" name="product_size">
               <option value="small">Small</option>
-              <option value="normal" selected>Middle</option>
+              <option value="normal" selected>Medium</option>
               <option value="large">Large</option>
               <option value="set">Set</option>
             </select>
@@ -193,7 +193,7 @@
         try {
           const response = await axios.post(
             `/resto/products/edit/${id}`, 
-            {id: id, product_status: product_status});
+            {id: id, product_status: product_status}); // request body
           const result = response.data;
           console.log("result:", result);
 
