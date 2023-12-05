@@ -6,36 +6,34 @@
     <form class="login_container" action="/resto/login" method="POST">
         <div class="login_frame">
             <div class="login_top">
-                <span>Saytga kirish</span>
+                <span>Login to Page</span> <br />
                 <div>
-                    Bosh sahifaga qaytish
-                    <a href="/resto" style="color: #6440fb">Home</a>
+                    Back to
+                    <a href="/resto" style="color: #6440fb">Home</a> Page
                 </div>
                 <p>
-                    Ro'yhatdan o'tmaganmisiz?
-                    <a href="/resto/signup" style="color: #6440fb"
-                        >Ro'yhatdan o'tish</a
-                    >
+                    Not yet signed up?
+                    <a href="/resto/sign-up" style="color: #6440fb">Sign up</a>
                 </p>
             </div>
 
             <div class="login_input_frame">
                 <div class="login_input_container">
-                    <label>Foydalanuvchining ismi: </label>
+                    <label>Username: </label>
                     <input
                         type="text"
                         name="mb_nick"
-                        placeholder="Foydalanuvchining ismi"
+                        placeholder="Enter Username"
                         value=""
                         required
                     />
                 </div>
                 <div class="login_input_container">
-                    <label>Password kiriting: </label>
+                    <label>Password: </label>
                     <input
                         type="password"
                         name="mb_password"
-                        placeholder="Password"
+                        placeholder="Enter Password"
                         value=""
                         required
                     />
@@ -43,7 +41,7 @@
             </div>
 
             <button class="login_btn btn" name="login" type="submit">
-                Kirish
+                Login
             </button>
         </div>
     </form>

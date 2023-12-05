@@ -2,43 +2,44 @@
 <link rel="stylesheet" type="text/css" href="/css/login.css" />
 <body>
     <form
+        onsubmit="return validateSignUpForm()"
         class="login_container"
         action="/resto/sign-up"
         method="POST"
         enctype="multipart/form-data"
     >
-        <div class="login_frame" style="width: 650px; height: 730px">
+        <div class="login_frame" style="width: 650px; height: 740px">
             <div class="login_top">
-                <span>Ro'yhatdan o'tish</span>
+                <span>Registration</span> <br />
                 <div>
-                    Bosh sahifaga qaytish
-                    <a href="/resto" style="color: #6440fb">Home</a>
+                    Back to
+                    <a href="/resto" style="color: #6440fb">Home</a> Page
                 </div>
                 <p>
-                    Ro'yhatdan allaqachon o'tganmisiz?
+                    Has alraedy registered?
                     <a href="/resto/login" style="color: #6440fb">Login</a>
                 </p>
             </div>
 
             <div class="sign_input_frame">
                 <div class="sign_up_frame">
-                    <label>Foydalanuvchining ismi</label>
+                    <label>Restaurant Username</label>
                     <input
                         type="text"
                         name="mb_nick"
                         class="mb_nick"
-                        placeholder="Foydalanuvchining ismi"
+                        placeholder="Enter Username"
                         value=""
                         required=""
                     />
                 </div>
                 <div class="sign_up_frame">
-                    <label>Telefon raqam</label>
+                    <label>Phone Number</label>
                     <input
                         type="text"
                         name="mb_phone"
                         class="mb_phone"
-                        placeholder="Telefon raqam"
+                        placeholder="Enter Phone Number"
                         value=""
                         required=""
                     />
@@ -52,18 +53,18 @@
                         type="password"
                         name="mb_password"
                         class="mb_password"
-                        placeholder="passwordni kiriting"
+                        placeholder="Enter Password"
                         value=""
                         required=""
                     />
                 </div>
                 <div class="sign_up_frame">
-                    <label>Passwordni tasdiqlash</label>
+                    <label>Confirm Password</label>
                     <input
                         type="password"
                         name="mb_confirm_password"
                         class="mb_confirm_password"
-                        placeholder="passwordni tasdiqlash"
+                        placeholder="Confirm Password"
                         value=""
                         required=""
                     />
@@ -77,14 +78,14 @@
                         src="/images/default_resto.jpeg"
                     />
                     <div class="upload_container">
-                        <span class="media_text">Restaurant Rasmi</span>
+                        <span class="media_text">Restaurant Image</span>
                         <div class="filebox bs3-primary preview-image">
                             <input
                                 class="upload-name"
-                                value="Rasmni tanlang"
+                                value="Choose Image"
                                 disabled="disabled"
                             />
-                            <label for="input_file">Rasm Yuklash</label>
+                            <label for="input_file">Upload Image</label>
                             <input
                                 type="file"
                                 id="input_file"
@@ -93,19 +94,82 @@
                             />
                         </div>
                         <p class="thumbnail_desc">
-                            Oshhona ramingizni bu yerga yuklang.<br />Muhim
-                            korsatmalar: .jpg, .jpeg, yoki .png. <br />rasmda
-                            matn yo'q bolishi darkor!
+                            *Remarks:<br />- Please upload restaurant image
+                            here.<br />- Image format: .jpg, .jpeg, or .png.
+                            <br />- Image should not contain text!
                         </p>
                     </div>
                 </div>
             </div>
 
             <button class="login_btn btn" name="signup" type="submit">
-                Ro'yhatdan o'tish
+                Register
             </button>
         </div>
     </form>
+    <script>
+        $(function () {
+            let fileTarget = $(".filebox .upload-hidden");
+            let filename = "";
+            fileTarget.on("change", function () {
+                if (window.FileReader) {
+                    const uploading_file = $(this)[0].files[0];
+                    const fileType = uploading_file["type"];
+                    const validImageTypes = [
+                        "image/jpg",
+                        "image/jpeg",
+                        "image/png",
+                    ];
+                    if (!validImageTypes.includes(fileType)) {
+                        alert(
+                            "Please upload allowed image formats: jpg, jpeg, or png!"
+                        );
+                    } else {
+                        if (uploading_file) {
+                            console.log(URL.createObjectURL(uploading_file));
+                            $(".upload_img_frame")
+                                .attr(
+                                    "src",
+                                    URL.createObjectURL(uploading_file)
+                                )
+                                .addClass("success");
+                        }
+                        filename = uploading_file.name;
+                    }
+                }
+
+                $(this).siblings(".upload-name").val(filename);
+            });
+        });
+
+        function validateSignUpForm() {
+            const mb_nick = $(".mb_nick").val();
+            const mb_phone = $(".mb_phone").val();
+            const mb_password = $(".mb_password").val();
+            const mb_confirm_password = $(".mb_confirm_password").val();
+            const restaurant_img = $(".restaurant_img").get(0).files[0] ?? null;
+
+            if (
+                mb_nick == "" ||
+                mb_phone == "" ||
+                mb_password == "" ||
+                mb_confirm_password == ""
+            ) {
+                alert("Please enter all fields!");
+                return false;
+            } else if (mb_password !== mb_confirm_password) {
+                alert(`Please enter password correctly!`);
+                return false;
+            }
+
+            if (!restaurant_img) {
+                alert("Please upload image!");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </body>
 
 <%- include('includes/footer') %>

@@ -2,6 +2,8 @@
 let restaurantController = module.exports;
 const Member = require("../models/Member");
 const Product = require("../models/Product");
+const Definer = require("../lib/mistake");
+const assert = require("assert");
 
 restaurantController.home = async (req, res) => {
     try {
@@ -42,12 +44,20 @@ restaurantController.signupProcess = async (req, res) => {
     // After successful signup, the new member (restaurant) details are stored in the session and the user is redirected to the restaurant menu page.
     try {
         console.log("POST: controller/signupProcess");
-        const data = req.body,
-            member = new Member(),
-            new_member = await member.signupData(data);
+        assert(req.file, Definer.general_err3); //file - single file
 
-        req.session.member = new_member;
-        res.redirect("/resto/products/menu");
+        let new_member = req.body;
+        // console.log("POST: req.body:::", req.body);
+        // res.send("OK");
+        new_member.mb_type = "RESTAURANT"; //because req comming to adinka
+        new_member.mb_image = req.file.path; // pass property of file object
+
+        const member = new Member();
+        const result = await member.signupData(new_member);
+        assert(req.file, Definer.general_err1);
+
+        req.session.member = result;
+        res.redirect("/resto/products/menu"); //restaurant user bolganligi uchun products menuga redirect
     } catch (error) {
         console.log(`Error, controller/signupProcess, ${error.message}`);
         res.json({ state: "fail", message: error.message });
