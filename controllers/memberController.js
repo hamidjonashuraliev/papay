@@ -86,7 +86,7 @@ memberController.checkMyAuthentication = (req, res) => {
     try {
         console.log("GET cont/checkMyAuthentication");
         let token = req.cookies["access_token"];
-        console.log("token:::", token);
+        // console.log("token:::", token);
 
         const member = token
             ? jwt.verify(token, process.env.SECRET_TOKEN)

@@ -22,7 +22,7 @@ const store = new MongoDBStore({
 app.use(express.static("public")); // The server serves static files from the "public" directory, aka takes JSON converts to JS Object
 app.use(express.json()); // The server can parse JSON payloads from incoming requests.
 app.use(express.urlencoded({ extended: true })); // The server can parse URL-encoded payloads.
-app.use(cookieParser());
+app.use(cookieParser()); // middleware to parse cookies attached to the client request object.
 
 //2 Session codes
 app.use(
