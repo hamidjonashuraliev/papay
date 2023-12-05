@@ -33,7 +33,7 @@ productController.addNewProduct = async (req, res) => {
         // Calls the addNewProductData method of the Product Service model to add the new product to the database, passing in the product data and the member information from req.member.
 
         const html = `<script>
-                    alert(new dish added successfully);
+                    alert('new dish added successfully');
                     window.location.replace('/resto/products/menu');
                   </script>`;
         res.end(html);
