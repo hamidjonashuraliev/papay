@@ -42,10 +42,18 @@ productController.addNewProduct = async (req, res) => {
 };
 
 // This function handles updating a chosen product.
-productController.updateChoosenProduct = async (req, res) => {
+productController.updateChosenProduct = async (req, res) => {
     try {
-        console.log("POST: controller/updateChoosenProduct");
+        console.log("POST: controller/updateChosenProduct");
+        const product = new Product();
+        const id = req.params.id;
+        const result = await product.updateChosenProductData(
+            id,
+            req.body,
+            req.member._id
+        );
+        await res.json({ state: "success", data: result });
     } catch (err) {
-        console.log(`Error, controller/updateChoosenProduct, ${err.message}`);
+        console.log(`Error, controller/updateChosenProduct, ${err.message}`);
     }
 };
