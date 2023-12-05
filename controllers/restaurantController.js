@@ -3,7 +3,7 @@ let restaurantController = module.exports;
 const Member = require("../models/Member");
 const Product = require("../models/Product");
 
-restaurantController.home = (req, res) => {
+restaurantController.home = async (req, res) => {
     try {
         console.log("GET: controller/home");
         res.render("home-page");

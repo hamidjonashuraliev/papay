@@ -1,6 +1,47 @@
 <%- include('includes/header') %>
 
+<link rel="stylesheet" type="text/css" href="css/home.css" />
+
 <body>
+    <div class="group_name">
+        <ul class="nav justify-content-center">
+            <li class="nav-item" style="cursor: pointer">
+                <a class="nav-link active" href="/resto">Home</a>
+            </li>
+
+            <% if(!member) { %>
+            <li class="nav-item" style="cursor: pointer">
+                <a class="nav-link" href="/resto/sign-up">Signup</a>
+            </li>
+            <li class="nav-item" style="cursor: pointer">
+                <a class="nav-link" href="/resto/login">Login</a>
+            </li>
+            <% } else if(member.mb_type === 'ADMIN') { %>
+            <li class="nav-item" style="cursor: pointer">
+                <a class="nav-link" href="/resto/all-restaurant">AllResto</a>
+            </li>
+            <li
+                class="nav-item"
+                style="cursor: pointer"
+                onclick="return confirm('Do you want to log out?')"
+            >
+                <a class="nav-link" href="/resto/logout">Logout</a>
+            </li>
+            <% } else { %>
+            <li class="nav-item" style="cursor: pointer">
+                <a class="nav-link" href="/resto/products/menu">MyResto</a>
+            </li>
+            <li
+                class="nav-item"
+                style="cursor: pointer"
+                onclick="return confirm('Do you want to log out?')"
+            >
+                <a class="nav-link" href="/resto/logout">Logout</a>
+            </li>
+            <% } %>
+        </ul>
+    </div>
+
     <div class="animation-wrapper">
         <div class="sphere-animation">
             <svg
