@@ -11,7 +11,11 @@ const memberController = require("./controllers/memberController"); // This is a
 router.post("/signup", memberController.signup); // Handles the signup process. Calls the signup method (cb fn) from memberController.
 router.post("/login", memberController.login);
 router.get("/logout", memberController.logout);
-router.get("/check-me", memberController.checkMyAuthentication);
+router.get(
+    "/member/:id",
+    memberController.checkMyAuthentication,
+    memberController.getChosenMember
+);
 
 // other routers
 router.get("/menu", (req, res) => {
