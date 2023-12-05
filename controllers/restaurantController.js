@@ -41,7 +41,7 @@ restaurantController.getSignupMyRestaurant = async (req, res) => {
 restaurantController.signupProcess = async (req, res) => {
     // After successful signup, the new member (restaurant) details are stored in the session and the user is redirected to the restaurant menu page.
     try {
-        console.log("POST: controller/signup");
+        console.log("POST: controller/signupProcess");
         const data = req.body,
             member = new Member(),
             new_member = await member.signupData(data);
@@ -49,7 +49,7 @@ restaurantController.signupProcess = async (req, res) => {
         req.session.member = new_member;
         res.redirect("/resto/products/menu");
     } catch (error) {
-        console.log(`Error, controller/signup, ${error.message}`);
+        console.log(`Error, controller/signupProcess, ${error.message}`);
         res.json({ state: "fail", message: error.message });
     }
 };
@@ -68,7 +68,7 @@ restaurantController.getLoginMyRestaurant = async (req, res) => {
 restaurantController.loginProcess = async (req, res) => {
     // This function handles the restaurant login process. Once logged in, the restaurant's details are saved in the session and then redirected to the menu page.
     try {
-        console.log("POST: controller/login");
+        console.log("POST: controller/loginProcess");
         const data = req.body,
             member = new Member(),
             result = await member.loginData(data);
@@ -76,10 +76,12 @@ restaurantController.loginProcess = async (req, res) => {
         req.session.member = result;
         req.session.save(function () {
             // ikkala joyga (browser va mongoDB) ham save qilgancha kut degani
-            res.redirect("/resto/products/menu");
+            result.mb_type === "ADMIN"
+                ? res.redirect("/resto/all-restaurant")
+                : res.redirect("/resto/products/menu");
         });
     } catch (error) {
-        console.log(`Error, controller/login, ${error.message}`);
+        console.log(`Error, controller/loginProcess, ${error.message}`);
         res.json({ state: "fail", message: error.message });
     }
 };
