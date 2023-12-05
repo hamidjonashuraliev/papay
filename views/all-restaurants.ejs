@@ -84,7 +84,7 @@
      $(".mb_status").on('change', function(e) {
       const id = e.target.id;
       const mb_status = $(`#${id}.mb_status`).val();
-      console.log('mb_status:', mb_status);
+      // console.log('mb_status:', mb_status);
       
       axios.post("/resto/all-restaurant/edit", {id: id, mb_status: mb_status})
       .then(response => {

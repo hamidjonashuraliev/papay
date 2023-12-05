@@ -5,6 +5,7 @@ const express = require("express"); // Imports the Express framework.
 const app = express(); // Creates an instance of an Express application.
 const router = require("./router"); // custom routers defined in files
 const router_bssr = require("./router_bssr");
+const cookieParser = require("cookie-parser");
 
 // MongoDB Session Store Configuration:
 let session = require("express-session");
@@ -21,6 +22,7 @@ const store = new MongoDBStore({
 app.use(express.static("public")); // The server serves static files from the "public" directory, aka takes JSON converts to JS Object
 app.use(express.json()); // The server can parse JSON payloads from incoming requests.
 app.use(express.urlencoded({ extended: true })); // The server can parse URL-encoded payloads.
+app.use(cookieParser());
 
 //2 Session codes
 app.use(

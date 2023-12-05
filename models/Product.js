@@ -16,7 +16,7 @@ class Product {
                 restaurant_mb_id: member._id,
             });
             assert.ok(result, Definer.general_err1);
-            console.log("RESULT:::", result);
+            // console.log("RESULT:::", result);
             return result;
         } catch (err) {
             throw err;

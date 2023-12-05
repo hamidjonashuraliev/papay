@@ -26,7 +26,7 @@ class Member {
                 throw new Error(Definer.auth_err1);
             }
 
-            console.log(result);
+            // console.log(result);
 
             result.mb_password = "";
             // for security reasons, the method erases the password from the result object before returning it.
