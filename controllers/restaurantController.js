@@ -1,9 +1,11 @@
 // This controller handles various functionalities related to restaurant management and authentication.
-let restaurantController = module.exports;
+const assert = require("assert");
+const Definer = require("../lib/mistake");
 const Member = require("../models/Member");
 const Product = require("../models/Product");
-const Definer = require("../lib/mistake");
-const assert = require("assert");
+const Restaurant = require("../models/Restaurant");
+
+let restaurantController = module.exports;
 
 restaurantController.home = async (req, res) => {
     try {
@@ -148,11 +150,24 @@ restaurantController.getAllRestaurants = async (req, res) => {
     try {
         console.log("GET cont/getAllRestaurants");
 
-        // todo: retrieve all restaurants from DB
-
-        res.render("all-restaurants");
+        const restaurant = new Restaurant();
+        const restaurants_data = await restaurant.getAllRestaurantsData();
+        console.log("restaurants_data:", restaurants_data);
+        res.render("all-restaurants", { restaurants_data: restaurants_data });
     } catch (err) {
         console.log(`ERROR, cont/getAllRestaurants, ${err.message}`);
+        res.json({ state: "fail", message: err.message });
+    }
+};
+
+restaurantController.updateRestaurantByAdmin = async (req, res) => {
+    try {
+        console.log("GET cont/updateRestaurantByAdmin");
+        const restaurant = new Restaurant();
+        const result = await restaurant.updateRestaurantByAdmin(req.body);
+        await res.json({ state: "success", data: result });
+    } catch (err) {
+        console.log(`ERROR, cont/updateRestaurantByAdmin, ${err.message}`);
         res.json({ state: "fail", message: err.message });
     }
 };
