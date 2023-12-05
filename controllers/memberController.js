@@ -36,9 +36,10 @@ memberController.login = async (req, res) => {
         const data = req.body,
             member = new Member(),
             result = await member.loginData(data);
-        console.log("result::::::::", result);
+        // console.log("result::::::::", result);
 
         const token = memberController.createToken(result);
+        // console.log("token::::::::", token);
 
         res.cookie("access_token", token, {
             maxAge: 6 * 3600 * 1000,
@@ -75,6 +76,23 @@ memberController.createToken = (result) => {
 
         assert.ok(token, Definer.auth_err2);
         return token;
+    } catch (err) {
+        throw err;
+    }
+};
+
+memberController.checkMyAuthentication = (req, res) => {
+    try {
+        console.log("GET cont/checkMyAuthentication");
+        let token = req.cookies["access_token"];
+        console.log("token:::", token);
+
+        const member = token
+            ? jwt.verify(token, process.env.SECRET_TOKEN)
+            : null;
+        assert.ok(member, Definer.auth_err2);
+
+        res.json({ state: "succeed", data: member });
     } catch (err) {
         throw err;
     }
