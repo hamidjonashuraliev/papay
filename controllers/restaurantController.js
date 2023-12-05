@@ -1,15 +1,19 @@
 // This controller handles various functionalities related to restaurant management and authentication.
 let restaurantController = module.exports;
 const Member = require("../models/Member");
+const Product = require("../models/Product");
 
-restaurantController.getMyRestaurantData = async (req, res) => {
+restaurantController.getMyRestaurantProducts = async (req, res) => {
     try {
-        console.log("GET: controller/getMyRestaurantData");
+        console.log("GET: controller/getMyRestaurantProducts");
         // TODO: Get my restaurant products
-
-        res.render("restaurant-menu"); //  It renders (koʻrsatuvchi) a view called "restaurant-menu".
+        const product = new Product();
+        const data = await product.getAllProductsDataResto(res.locals.member);
+        res.render("restaurant-menu", { restaurant_data: data }); //  It renders (koʻrsatuvchi) a view called "restaurant-menu".
     } catch (error) {
-        console.log(`Error, controller/getMyRestaurantData, ${error.message}`);
+        console.log(
+            `Error, controller/getMyRestaurantProducts, ${error.message}`
+        );
         res.json({ state: "fail", message: error.message });
     }
 };

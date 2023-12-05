@@ -18,7 +18,7 @@ const store = new MongoDBStore({
 
 // Middleware Configuration. Configures the session middleware:
 //1 Entry codes
-app.use(express.static("public")); // The server serves static files from the "public" directory.
+app.use(express.static("public")); // The server serves static files from the "public" directory, aka takes JSON converts to JS Object
 app.use(express.json()); // The server can parse JSON payloads from incoming requests.
 app.use(express.urlencoded({ extended: true })); // The server can parse URL-encoded payloads.
 
