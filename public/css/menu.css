@@ -1,0 +1,42 @@
+.restaurant_menu_frame {
+    position: relative;
+    padding-bottom: 80px;
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #2c261e;
+}
+
+.restaurant_menu_frame .restaurant_container {
+    position: relative;
+    margin-top: 100px;
+    width: 1320px;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.restaurant_container .dishs_table {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.restaurant_container .resto_table {
+    position: relative;
+    width: 85%;
+    height: auto;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

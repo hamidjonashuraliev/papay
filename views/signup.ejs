@@ -109,6 +109,7 @@
     </form>
     <script>
         $(function () {
+            //This is to prevent any jQuery code from running before the document is finished loading (is ready). Commonly Used jQuery Event Method. Or $(document).ready()
             let fileTarget = $(".filebox .upload-hidden");
             let filename = "";
             fileTarget.on("change", function () {

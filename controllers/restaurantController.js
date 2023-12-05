@@ -26,7 +26,7 @@ restaurantController.getMyRestaurantProducts = async (req, res) => {
         console.log(
             `Error, controller/getMyRestaurantProducts, ${error.message}`
         );
-        res.json({ state: "fail", message: error.message });
+        res.redirect("/resto");
     }
 };
 
@@ -97,8 +97,15 @@ restaurantController.loginProcess = async (req, res) => {
 };
 
 restaurantController.logout = (req, res) => {
-    console.log("GET controller/logout");
-    res.send("You are in logout section");
+    try {
+        console.log("GET cont/logout");
+        req.session.destroy(function () {
+            res.redirect("/resto");
+        });
+    } catch (err) {
+        console.log(`ERROR, cont/logout, ${err.message}`);
+        res.json({ state: "fail", message: err.message });
+    }
 };
 
 restaurantController.validateAuthRestaurant = (req, res, next) => {
