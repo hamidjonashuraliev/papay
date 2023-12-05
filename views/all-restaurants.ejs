@@ -47,7 +47,7 @@
                     </label>
                   </td>
                   <td style="width: 13%">
-                    <select class="spec_select mb_status">
+                    <select class="spec_select mb_status" id="<%= value._id %>">
                       <option value="ONPAUSE" <%= value.mb_status === 'ONPAUSE' ? 'selected' : '' %>>OnPause</option>
                       <option value="ACTIVE" <%= value.mb_status === 'ACTIVE' ? 'selected' : '' %>>Active</option>
                       <option value="DELETED"  <%= value.mb_status === 'DELETED' ? 'selected' : '' %>>Deleted</option>
@@ -79,8 +79,22 @@
       }).catch(err => console.log(err))
     })
     });
+
+     // manipualte restaurants top features
+     $(".mb_status").on('change', function(e) {
+      const id = e.target.id;
+      const mb_status = $(`#${id}.mb_status`).val();
+      console.log('mb_status:', mb_status);
+      
+      axios.post("/resto/all-restaurant/edit", {id: id, mb_status: mb_status})
+      .then(response => {
+        const result = response.data;
+        if(result.state === 'success') alert('Successfully Updated');
+          else alert(result.message);
+      }).catch(err => console.log(err))
+    });
   </script>
-  
+
 </body>
 
 <%- include('includes/footer') %>
