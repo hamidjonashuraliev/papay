@@ -43,6 +43,25 @@ class Product {
         }
     }
 
+    async getChosenProductData(member, id) {
+        try {
+            const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+            id = shapeIntoMongooseObjectId(id);
+
+            const result = await this.productModel
+                .aggregate([
+                    { $match: { _id: id, product_status: "PROCESS" } },
+                    // todo: check auth member product likes
+                ])
+                .exec();
+            assert.ok(result, Definer.general_err1);
+
+            return result;
+        } catch (err) {
+            throw err;
+        }
+    }
+
     async getAllProductsDataResto(member) {
         try {
             member._id = shapeIntoMongooseObjectId(member._id);
