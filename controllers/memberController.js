@@ -12,8 +12,9 @@ memberController.signup = async (req, res) => {
         const data = req.body, // Extracts the request body (submitted data).
             member = new Member(), // Instantiates a new Member object.
             new_member = await member.signupData(data); // Calls the signupData method on the Member object, passing the extracted data.
-
+        // console.log("result::::::::", result);
         const token = memberController.createToken(new_member);
+        // console.log("token::::::::", token);
 
         res.cookie("access_token", token, {
             maxAge: 6 * 3600 * 1000,
@@ -86,7 +87,7 @@ memberController.checkMyAuthentication = (req, res) => {
     try {
         console.log("GET cont/checkMyAuthentication");
         let token = req.cookies["access_token"];
-        // console.log("token:::", token);
+        // console.log("token:::", token);   
 
         const member = token
             ? jwt.verify(token, process.env.SECRET_TOKEN)

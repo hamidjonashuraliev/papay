@@ -21,8 +21,8 @@ productController.getChosenProduct = async (req, res) => {
     try {
         console.log("GET: controller/getChosenProduct");
         const product = new Product(),
-        id = req.params.id,
-        result = await product.getChosenProductData(req.member, id);
+            id = req.params.id,
+            result = await product.getChosenProductData(req.member, id);
 
         res.json({ state: "success", data: result });
     } catch {

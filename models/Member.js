@@ -21,8 +21,10 @@ class Member {
 
             const new_member = new this.memberModel(input);
             let result;
+            console.log("new_member::: ", new_member);
             try {
                 result = await new_member.save();
+                console.log("result::: ", result);
             } catch (mongo_err) {
                 console.log(mongo_err);
                 throw new Error(Definer.auth_err1);

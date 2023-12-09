@@ -3,6 +3,7 @@ const { shapeIntoMongooseObjectId } = require("../lib/config");
 // utility function that converts some value into a Mongoose ObjectID.
 const Definer = require("../lib/mistake");
 const ProductModel = require("../schema/product.model");
+const Member = require("./Member");
 
 class Product {
     constructor() {
@@ -47,6 +48,11 @@ class Product {
         try {
             const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
             id = shapeIntoMongooseObjectId(id);
+
+            if(member) {
+                const member_obj = new Member();
+                member_obj.viewChosenItemByMember(member, id, "product");
+            }
 
             const result = await this.productModel
                 .aggregate([
