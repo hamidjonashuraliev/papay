@@ -17,7 +17,7 @@ mongoose.connect(
         if (err) console.log(`Error on connecting to MongoDB`);
         // An error check is done to see if the connection was successful. If there's an error, it's logged to the console.
         else {
-            console.log("MongoDB connection succeeded"); // If there's no error, the code proceeds to require the Express application (./app) and starts an HTTP server.
+            console.log("MongoDB connection successed"); // If there's no error, the code proceeds to require the Express application (./app) and starts an HTTP server.
             // console.log(goose);
             // HTTP Server Creation:
             const app = require("./app"); // The Express application is imported from ./app.

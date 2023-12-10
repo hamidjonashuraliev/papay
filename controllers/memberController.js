@@ -21,8 +21,8 @@ memberController.signup = async (req, res) => {
             httpOnly: true,
         });
 
-        res.json({ state: "succeed", data: new_member });
-        // If successful, it returns a JSON response with the state "succeed" to FE and the new member's data.
+        res.json({ state: "success", data: new_member });
+        // If successful, it returns a JSON response with the state "success" to FE and the new member's data.
     } catch (error) {
         // If an error occurs, the error is logged, and a JSON response with the state "fail" is sent.
         console.log(`Error, controller/signup ${error.message}`);
@@ -47,7 +47,7 @@ memberController.login = async (req, res) => {
             httpOnly: true,
         });
 
-        res.json({ state: "succeed", data: result });
+        res.json({ state: "success", data: result });
         // On success, sends a JSON response indicating the successful login state and returns the relevant data.
     } catch (error) {
         console.log(`Error, controller/login ${error.message}`);
@@ -59,7 +59,7 @@ memberController.logout = (req, res) => {
     // typically, logging out would involve clearing or invalidating a user's session.
     console.log("GET controller/logout requested");
     res.cookie("access_token", null, { maxAge: 0, httpOnly: true });
-    res.json({ state: "succeed", data: "logout successful" });
+    res.json({ state: "success", data: "logout successful" });
 };
 
 // WEB tokens JWT
@@ -94,7 +94,7 @@ memberController.checkMyAuthentication = (req, res) => {
             : null;
         assert.ok(member, Definer.auth_err2);
 
-        res.json({ state: "succeed", data: member });
+        res.json({ state: "success", data: member });
     } catch (err) {
         throw err;
     }
@@ -108,7 +108,7 @@ memberController.getChosenMember = async (req, res) => {
         const member = new Member();
         const result = await member.getChosenMemberData(req.member, id);
 
-        res.json({ state: "succeed", data: result });
+        res.json({ state: "success", data: result });
     } catch (err) {
         console.log(`ERROR, cont/getChosenMember, ${err.message}`);
         res.json({ state: "fail", message: err.message });
