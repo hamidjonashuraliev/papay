@@ -25,10 +25,7 @@ productController.getChosenProduct = async (req, res) => {
             result = await product.getChosenProductData(req.member, id);
 
         res.json({ state: "success", data: result });
-    } catch {
-        err
-    }
-    {
+    } catch (err) {
         console.log(`Error, controller/getChosenProduct, ${err.message}`);
         res.json({ state: "fail", message: err.message });
     }

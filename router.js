@@ -4,6 +4,7 @@ const router = express.Router(); //  An instance of the Express router to define
 const memberController = require("./controllers/memberController"); // This is an imported module that contains methods to handle the logic for member-related endpoints, such as signup, login, and logout.
 const productController = require("./controllers/productController"); //contains the logic for handling requests related products.
 const restaurantController = require("./controllers/restaurantController");
+const orderController = require("./controllers/orderController");
 
 /********************************
  *      React REST API          *
@@ -43,6 +44,13 @@ router.get(
     "/restaurant/:id",
     memberController.retrieveAuthMember,
     restaurantController.getChosenRestaurant
+);
+
+// Restaurant-Related Route
+router.post(
+    "/orders/create",
+    memberController.retrieveAuthMember,
+    orderController.createOrder
 );
 
 module.exports = router;

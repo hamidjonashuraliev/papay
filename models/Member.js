@@ -51,13 +51,13 @@ class Member {
                 .exec();
             // It starts by fetching a member from the database based on the provided nickname (mb_nick).
 
-            assert.ok(member, Definer.err_auth3);
+            assert.ok(member, Definer.auth_err3);
 
             const isMatch = await bcrypt.compare(
                 input.mb_password,
                 member.mb_password
             );
-            assert.ok(isMatch, Definer.err_auth4);
+            assert.ok(isMatch, Definer.auth_err4);
 
             return await this.memberModel
                 // If everything is successful, it fetches and returns the full member data.
