@@ -2,7 +2,7 @@ const assert = require("assert");
 const Definer = require("../lib/mistake.js");
 const MemberModel = require("../schema/member.model.js");
 const { shapeIntoMongooseObjectId } = require("../lib/config.js");
-
+const Member = require("../models/Member.js");
 class Restaurant {
     constructor() {
         this.memberModel = MemberModel;
@@ -35,12 +35,33 @@ class Restaurant {
             }
             aggregationQuery.push({ $skip: (data.page - 1) * data.limit });
             aggregationQuery.push({ $limit: data.limit });
-            
+
             const result = await this.memberModel
-            .aggregate(aggregationQuery).exec();
+                .aggregate(aggregationQuery)
+                .exec();
             assert.ok(result, Definer.general_err1);
             return result;
         } catch (err) {
+            throw err;
+        }
+    }
+
+    async getChosenRestaurantData(member, id) {
+        try {
+            id = shapeIntoMongooseObjectId(id);
+              if(member) {
+                const member_obj = new Member();
+               await member_obj.viewChosenItemByMember(member, id, "member ");
+
+               const result = await this.memberModel.findOne({
+                _id: id,
+                mb_status: "ACTIVE"
+               }).exec();
+               assert.ok(result, Definer.general_err2);
+               return result;
+
+            }
+        }catch (err) {
             throw err;
         }
     }

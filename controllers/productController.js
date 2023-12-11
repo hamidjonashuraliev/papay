@@ -26,7 +26,7 @@ productController.getChosenProduct = async (req, res) => {
 
         res.json({ state: "success", data: result });
     } catch {
-        err;
+        err
     }
     {
         console.log(`Error, controller/getChosenProduct, ${err.message}`);
