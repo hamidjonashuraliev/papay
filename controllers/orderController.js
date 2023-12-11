@@ -4,6 +4,7 @@ const Order = require("../models/Order.js");
 let orderController = module.exports;
 const assert = require("assert");
 const Definer = require("../lib/mistake");
+const { query } = require("express");
 
 orderController.createOrder = async (req, res) => {
   try {
@@ -18,6 +19,19 @@ orderController.createOrder = async (req, res) => {
     res.json({ state: "success", data: result }); // The result is then sent back in a JSON response.
   } catch (err) {
     console.log(`ERROR, cont/createOrder, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+orderController.getMyOrders = async (req, res) => {
+  try {
+    console.log("GET: cont/getMyOrders");
+    assert.ok(req.member, Definer.auth_err5);
+    const order = new Order();
+     const result = await order.getMyOrdersData(req.member, req.query);
+     res.json({ state: "success", data: result }); 
+  } catch(err) {
+    console.log(`ERROR, cont/getMyOrders, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
