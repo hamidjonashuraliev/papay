@@ -46,7 +46,7 @@ router.get(
     restaurantController.getChosenRestaurant
 );
 
-// Restaurant-Related Route
+// order-Related Route
 router.post(
     "/orders/create",
     memberController.retrieveAuthMember,

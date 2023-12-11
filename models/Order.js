@@ -22,8 +22,8 @@ class Order {
         order_total_amount += item["quantity"] * item["price"];
       });
 
-      if (order_total_amount < 100000) {
-        delivery_cost = 4000;
+      if (order_total_amount < 100) {
+        delivery_cost = 4;
         order_total_amount += delivery_cost;
       }
 
