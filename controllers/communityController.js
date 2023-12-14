@@ -1,6 +1,8 @@
 const assert = require("assert");
 const Definer = require("../lib/mistake");
 const Community = require("../models/Community");
+const { log } = require("console");
+const { reset } = require("mongodb/lib/core/connection/logger");
 
 let communityController = module.exports;
 
@@ -59,6 +61,18 @@ communityController.getMemberArticles = async (req, res) => {
         res.json({ state: "success", data: result });
     } catch (err) {
         console.log(`ERROR cont/getMemberArticles ${err.message}`);
+        res.json({ state: "fail", message: err.message });
+    }
+};
+communityController.getArticles = async (req, res) => {
+    try {
+        console.log("GET: cont/getArticles");
+        const community = new Community();
+        const result = await community.getArticlesData(req.member, req.query);
+
+        res.json({ state: "success", data: result });
+    } catch (err) {
+        console.log(`ERROR cont/getArticles ${err.message}`);
         res.json({ state: "fail", message: err.message });
     }
 };
