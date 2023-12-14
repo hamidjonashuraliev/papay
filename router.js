@@ -5,6 +5,7 @@ const memberController = require("./controllers/memberController"); // This is a
 const productController = require("./controllers/productController"); //contains the logic for handling requests related products.
 const restaurantController = require("./controllers/restaurantController");
 const orderController = require("./controllers/orderController");
+const followController = require("./controllers/followController");
 const communityController = require("./controllers/communityController");
 const uploader_community = require("./utils/upload-multer")("community");
 const uploader_member = require("./utils/upload-multer")("members");
@@ -93,4 +94,8 @@ router.get(
     memberController.retrieveAuthMember,
     communityController.getChosenArticle
 );
+//Following related routers 
+router.post("/follow/subscribe", 
+memberController.retrieveAuthMember, 
+followController.subscribe);
 module.exports = router;
