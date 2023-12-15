@@ -1,4 +1,4 @@
-const assert = require ("assert"); // A module for asserting truthy values.
+const assert = require("assert"); // A module for asserting truthy values.
 const { shapeIntoMongooseObjectId } = require("../lib/config");
 // utility function that converts some value into a Mongoose ObjectID.
 const Definer = require("../lib/mistake");
@@ -32,7 +32,6 @@ class Follow {
                 "subscriber_change",
                 1
             );
-            return true;
 
             await this.modifyMemberFollowCounts(
                 subscriber_id,
@@ -108,8 +107,38 @@ class Follow {
             throw err;
         }
     }
-}
 
+    async getMemberFollowingsData(inquiry) {
+        try {
+            // console.log("query:", inquiry);
+            const subscriber_id = shapeIntoMongooseObjectId(inquiry.mb_id),
+                page = inquiry.page * 1,
+                limit = inquiry.limit * 1;
+            console.log(subscriber_id);
+            const result = await this.followModel
+                .aggregate([
+                    { $match: { subscriber_id: subscriber_id } },
+                    { $sort: { createdAt: -1 } },
+                    { $skip: (page - 1) * limit },
+                    { $limit: limit },
+                        {$lookup: {
+                            from: "members",
+                            localField: 'follow_id',
+                            foreignField: '_id',
+                            as: 'follow_member_data'
+                        },
+                     },
+                     {$unwind: "$follow_member_data"},
+                ])
+                .exec();
+            console.log(result);
+            assert.ok(result, Definer.follow_err3);
+            return result;
+        } catch (err) {
+            throw err;
+        }
+    }
+}
 module.exports = Follow;
 
 // This Product class provides methods to interact with the Product Schema Model
