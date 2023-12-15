@@ -105,7 +105,7 @@ class Member {
                 view_ref_id,
                 group_type
             );
-     console.log("isValid:", isValid);
+            console.log("isValid:", isValid);
             assert.ok(isValid, Definer.general_err2);
 
             // logged user has seen target before

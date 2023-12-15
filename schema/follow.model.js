@@ -1,6 +1,6 @@
 // This code defines a Mongoose schema for an "Order" collection in MongoDB
-const mongoose = require("mongoose");
-const { order_status_enums } = require("../lib/config");
+const mongoose = require ("mongoose");
+const { } = require("../lib/config");
 const Schema = mongoose.Schema;
 
 const followSchema = new mongoose.Schema(
