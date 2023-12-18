@@ -6,7 +6,7 @@ dotenv.config(); // loads the environment variables from a .env file into proces
 
 const connectionString = process.env.MONGO_URL; // database name: Papay; Connection string moved to environment file
 // This retrieves the MongoDB connection string from the environment variable MONGO_URL.
-
+mongoose.set("strictQuery", false);
 mongoose.connect(
     // This code connects to the MongoDB database using the mongoose library. Two options are provided for the connection:
     connectionString,

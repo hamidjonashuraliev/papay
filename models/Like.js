@@ -1,26 +1,26 @@
-// const { group } = require("mongodb/lib/operations/collection_ops");
-const ViewModel = require("../schema/view.model");
 const MemberModel = require("../schema/member.model");
+const LikeModel = require("../schema/like.model");
 const ProductModel = require("../schema/product.model");
 const BoArticleModel = require("../schema/bo_article.model");
+const Definer = require("../lib/mistake");
 
-class View {
+class Like {
     constructor(mb_id) {
-        this.viewModel = ViewModel;
+        this.likeModel = LikeModel;
         this.memberModel = MemberModel;
         this.productModel = ProductModel;
         this.boArticleModel = BoArticleModel;
         this.mb_id = mb_id;
     }
 
-    async validateChosenTarget(view_ref_id, group_type) {
+    async validateTargetItem(id, group_type) {
         try {
             let result;
             switch (group_type) {
                 case "member":
                     result = await this.memberModel
                         .findOne({
-                            _id: view_ref_id,
+                            _id: id,
                             mb_status: "ACTIVE",
                         })
                         .exec();
@@ -28,16 +28,16 @@ class View {
                 case "product":
                     result = await this.productModel
                         .findOne({
-                            _id: view_ref_id,
+                            _id: id,
                             product_status: "PROCESS",
                         })
                         .exec();
                     break;
-
                 case "community":
+                default:
                     result = await this.boArticleModel
                         .findOne({
-                            _id: view_ref_id,
+                            _id: id,
                             art_status: "active",
                         })
                         .exec();
@@ -50,34 +50,65 @@ class View {
         }
     }
 
-    async insertMemberView(view_ref_id, group_type) {
+    async checkLikeExistence(like_ref_id) {
         try {
-            const new_view = new this.viewModel({
-                mb_id: this.mb_id,
-                view_ref_id: view_ref_id,
-                view_group: group_type,
-            });
-            const result = await new_view.save();
-
-            // target items view sonini bittaga oshiramiz
-            await this.modifyItemViewCounts(view_ref_id, group_type);
-
-            return result;
+            const like = await this.likeModel
+                .findOne({
+                    mb_id: this.mb_id,
+                    like_ref_id: like_ref_id,
+                })
+                .exec();
+            console.log(like);
+            return !!like;
         } catch (err) {
             throw err;
         }
     }
 
-    async modifyItemViewCounts(view_ref_id, group_type) {
+    async removeMemberLike(like_ref_id, group_type) {
+        try {
+            const result = await this.likeModel
+                .findOneAndDelete({
+                    like_ref_id: like_ref_id,
+                    mb_id: this.mb_id,
+                })
+                .exec();
+
+            await this.modifyItemLikeCounts(like_ref_id, group_type, -1);
+            return true;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    async insertMemberLike(like_ref_id, group_type) {
+        try {
+            const new_like = new this.likeModel({
+                mb_id: this.mb_id,
+                like_ref_id: like_ref_id,
+                like_group: group_type,
+            });
+            const result = await new_like.save();
+
+            await this.modifyItemLikeCounts(like_ref_id, group_type, 1);
+
+            return result;
+        } catch (err) {
+            console.log(err);
+            throw new Error(Definer.mongo_validation_err1);
+        }
+    }
+
+    async modifyItemLikeCounts(like_ref_id, group_type, modifier) {
         try {
             switch (group_type) {
                 case "member":
                     await this.memberModel
                         .findByIdAndUpdate(
                             {
-                                _id: view_ref_id,
+                                _id: like_ref_id,
                             },
-                            { $inc: { mb_views: 1 } }
+                            { $inc: { mb_likes: modifier } }
                         )
                         .exec();
                     break;
@@ -85,19 +116,20 @@ class View {
                     await this.productModel
                         .findByIdAndUpdate(
                             {
-                                _id: view_ref_id,
+                                _id: like_ref_id,
                             },
-                            { $inc: { product_views: 1 } }
+                            { $inc: { product_likes: modifier } }
                         )
                         .exec();
                     break;
                 case "community":
+                default:
                     await this.boArticleModel
                         .findByIdAndUpdate(
                             {
-                                _id: view_ref_id,
+                                _id: like_ref_id,
                             },
-                            { $inc: { art_views: 1 } }
+                            { $inc: { art_likes: 1 } }
                         )
                         .exec();
                     break;
@@ -107,20 +139,6 @@ class View {
             throw err;
         }
     }
-
-    async checkViewExistence(view_ref_id) {
-        try {
-            const view = await this.viewModel
-                .findOne({
-                    mb_id: this.mb_id,
-                    view_ref_id: view_ref_id,
-                })
-                .exec();
-            return view ? true : false;
-        } catch (err) {
-            throw err;
-        }
-    }
 }
 
-module.exports = View;
+module.exports = Like;

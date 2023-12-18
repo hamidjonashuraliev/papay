@@ -25,7 +25,7 @@ communityController.createArticle = async (req, res) => {
 
         const community = new Community();
         const result = await community.createArticleData(req.member, req.body);
-        assert.ok(result, Definer.auth_err1);
+        assert.ok(result, Definer.mongo_validation_err_1);
 
         res.json({ state: "success", data: result });
     } catch (err) {

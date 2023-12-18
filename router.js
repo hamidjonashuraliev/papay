@@ -25,6 +25,12 @@ router.get(
     memberController.getChosenMember
 );
 
+router.post(
+    "/member-liken",
+    memberController.retrieveAuthMember,
+    memberController.likeMemberChosen
+);
+
 // Product-Related Routes
 router.post(
     // Get All Products: The route POST /products is set up to retrieve all products. It first ensures the user is authenticated using retrieveAuthMember from memberController and then calls getAllProducts from productController.
@@ -107,8 +113,7 @@ router.post(
     memberController.retrieveAuthMember,
     followController.unsubscribe
 );
-router.get("/follow/followings", 
-followController.getMemberFollowings);
+router.get("/follow/followings", followController.getMemberFollowings);
 
 router.get(
     "/follow/followers",
