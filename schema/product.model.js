@@ -63,7 +63,7 @@ const productSchema = new mongoose.Schema(
         },
         product_volume: {
             // product_volume: Specifies the volume of the product and is required only if the product_collection is "drink".
-            type: String,
+            type: Number,
             default: 1,
             required: function () {
                 return this.product_collection === "drink";
