@@ -5,6 +5,7 @@ const express = require("express"); // Imports the Express framework.
 const app = express(); // Creates an instance of an Express application.
 const router = require("./router"); // custom routers defined in files
 const router_bssr = require("./router_bssr");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 // MongoDB Session Store Configuration:
@@ -20,8 +21,15 @@ const store = new MongoDBStore({
 // Middleware Configuration. Configures the session middleware:
 //1 Entry codes
 app.use(express.static("public")); // The server serves static files from the "public" directory, aka takes JSON converts to JS Object
+app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(express.json()); // The server can parse JSON payloads from incoming requests.
 app.use(express.urlencoded({ extended: true })); // The server can parse URL-encoded payloads.
+app.use(
+    cors({
+        credentials: true,
+        origin: true,
+    })
+);
 app.use(cookieParser()); // middleware to parse cookies attached to the client request object.
 
 //2 Session codes

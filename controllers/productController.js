@@ -42,7 +42,7 @@ productController.addNewProduct = async (req, res) => {
         let data = req.body;
 
         data.product_images = req.files.map((ele) => {
-            return ele.path;
+            return ele.path.replace(/\\/g, "/");
         });
         // Extracts the paths of uploaded files from req.files and assigns them to the product_images property of data.
 
