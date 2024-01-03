@@ -7,26 +7,26 @@ const Product = require("../models/Product"); //  imports the Product model, whi
 // This is an asynchronous function designed to handle an HTTP GET request to retrieve all products.
 productController.getAllProducts = async (req, res) => {
     try {
-        console.log("GET: controller/getAllProducts");
+        console.log("GET: cont/getAllProducts");
         const product = new Product();
         const result = await product.getAllProductsData(req.member, req.body);
         res.json({ state: "success", data: result });
     } catch (err) {
-        console.log(`Error, controller/getAllProducts, ${err.message}`);
+        console.log(`Error, cont/getAllProducts, ${err.message}`);
         res.json({ state: "fail", message: err.message });
     }
 };
 
 productController.getChosenProduct = async (req, res) => {
     try {
-        console.log("GET: controller/getChosenProduct");
+        console.log("GET: cont/getChosenProduct");
         const product = new Product(),
             id = req.params.id,
             result = await product.getChosenProductData(req.member, id);
 
         res.json({ state: "success", data: result });
     } catch (err) {
-        console.log(`Error, controller/getChosenProduct, ${err.message}`);
+        console.log(`Error, cont/getChosenProduct, ${err.message}`);
         res.json({ state: "fail", message: err.message });
     }
 };
@@ -34,7 +34,7 @@ productController.getChosenProduct = async (req, res) => {
 // This is asynchronous function designed to handle an HTTP POST request to add a new product.
 productController.addNewProduct = async (req, res) => {
     try {
-        console.log("POST: controller/addNewProduct");
+        console.log("POST: cont/addNewProduct");
         // console.log("Request files: ", req.files);
         assert.ok(req.files, Definer.general_err3);
         // console.log(req.member);
@@ -56,14 +56,14 @@ productController.addNewProduct = async (req, res) => {
         res.end(html);
         //Constructs an HTML response containing a JavaScript alert and a redirection to the product menu page and sends it as the response.
     } catch (err) {
-        console.log(`Error, controller/addNewProduct, ${err.message}`);
+        console.log(`Error, cont/addNewProduct, ${err.message}`);
     }
 };
 
 // This function handles updating a chosen product.
 productController.updateChosenProduct = async (req, res) => {
     try {
-        console.log("POST: controller/updateChosenProduct");
+        console.log("POST: cont/updateChosenProduct");
         const product = new Product(); // Creates a new Product instance.
         const id = req.params.id; // Retrieves the id parameter from the request's URL (req.params.id).
         const result = await product.updateChosenProductData(
@@ -75,6 +75,6 @@ productController.updateChosenProduct = async (req, res) => {
 
         await res.json({ state: "success", data: result }); // Sends a JSON response with a "success" state and the updated product data.
     } catch (err) {
-        console.log(`Error, controller/updateChosenProduct, ${err.message}`);
+        console.log(`Error, cont/updateChosenProduct, ${err.message}`);
     }
 };

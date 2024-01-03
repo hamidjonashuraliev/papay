@@ -8,7 +8,7 @@ const Definer = require("../lib/mistake");
 memberController.signup = async (req, res) => {
     // This asynchronous function handles member signup. When a POST request is made to the corresponding route:
     try {
-        console.log("POST: controller/signup requested");
+        console.log("POST: cont/signup requested");
         const data = req.body, // Extracts the request body (submitted data).
             member = new Member(), // Instantiates a new Member object.
             new_member = await member.signupData(data); // Calls the signupData method on the Member object, passing the extracted data.
@@ -18,14 +18,14 @@ memberController.signup = async (req, res) => {
 
         res.cookie("access_token", token, {
             maxAge: 6 * 3600 * 1000,
-            httpOnly: true,
+            httpOnly: false,
         });
 
         res.json({ state: "success", data: new_member });
         // If successful, it returns a JSON response with the state "success" to FE and the new member's data.
     } catch (error) {
         // If an error occurs, the error is logged, and a JSON response with the state "fail" is sent.
-        console.log(`Error, controller/signup ${error.message}`);
+        console.log(`Error, cont/signup ${error.message}`);
         res.json({ state: "fail", message: error.message });
         // It ensures the client is informed when something goes wrong.
     }
@@ -33,7 +33,7 @@ memberController.signup = async (req, res) => {
 
 memberController.login = async (req, res) => {
     try {
-        console.log("POST: controller/login requested");
+        console.log("POST: cont/login requested");
         const data = req.body,
             member = new Member(),
             result = await member.loginData(data);
@@ -44,20 +44,20 @@ memberController.login = async (req, res) => {
 
         res.cookie("access_token", token, {
             maxAge: 6 * 3600 * 1000,
-            httpOnly: true,
+            httpOnly: false,
         });
 
         res.json({ state: "success", data: result });
         // On success, sends a JSON response indicating the successful login state and returns the relevant data.
     } catch (error) {
-        console.log(`Error, controller/login ${error.message}`);
+        console.log(`Error, cont/login ${error.message}`);
         res.json({ state: "fail", message: error.message });
     }
 };
 
 memberController.logout = (req, res) => {
     // typically, logging out would involve clearing or invalidating a user's session.
-    console.log("GET controller/logout requested");
+    console.log("GET cont/logout requested");
     res.cookie("access_token", null, { maxAge: 0, httpOnly: true });
     res.json({ state: "success", data: "logout successful" });
 };

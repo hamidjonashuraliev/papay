@@ -8,7 +8,7 @@ const Restaurant = require("../models/Restaurant");
 let restaurantController = module.exports;
 restaurantController.getRestaurants = async (req, res) => {
     try {
-        console.log("GET: controller/getRestaurants");
+        console.log("GET: cont/getRestaurants");
         const data = req.query,
             restaurant = new Restaurant(),
             result = await restaurant.getRestaurantsData(req.member, data);
@@ -22,7 +22,7 @@ restaurantController.getRestaurants = async (req, res) => {
 
 restaurantController.getChosenRestaurant = async (req, res) => {
     try {
-        console.log("GET: controller/getChosenRestaurant");
+        console.log("GET: cont/getChosenRestaurant");
         const id = req.params.id,
             restaurant = new Restaurant(),
             result = await restaurant.getChosenRestaurantData(req.member, id);
@@ -40,7 +40,7 @@ restaurantController.getChosenRestaurant = async (req, res) => {
 
 restaurantController.home = async (req, res) => {
     try {
-        console.log("GET: controller/home");
+        console.log("GET: cont/home");
         res.render("home-page");
     } catch (err) {
         console.log(`ERROR, cont/home, ${err.message}`);
@@ -50,14 +50,14 @@ restaurantController.home = async (req, res) => {
 
 restaurantController.getMyRestaurantProducts = async (req, res) => {
     try {
-        console.log("GET: controller/getMyRestaurantProducts");
+        console.log("GET: cont/getMyRestaurantProducts");
         // TODO: Get my restaurant products
         const product = new Product();
         const data = await product.getAllProductsDataResto(res.locals.member);
         res.render("restaurant-menu", { restaurant_data: data }); //  It renders (koʻrsatuvchi) a view called "restaurant-menu".
     } catch (error) {
         console.log(
-            `Error, controller/getMyRestaurantProducts, ${error.message}`
+            `Error, cont/getMyRestaurantProducts, ${error.message}`
         );
         res.redirect("/resto");
     }
@@ -65,10 +65,10 @@ restaurantController.getMyRestaurantProducts = async (req, res) => {
 
 restaurantController.getSignupMyRestaurant = async (req, res) => {
     try {
-        console.log("GET: controller/getSignupMyRestaurant");
+        console.log("GET: cont/getSignupMyRestaurant");
         res.render("signup"); // An async function that simply renders a signup page for restaurants.
     } catch (error) {
-        console.log(`Error, controller/signup, ${error.message}`);
+        console.log(`Error, cont/signup, ${error.message}`);
         res.json({ state: "fail", message: error.message });
     }
 };
@@ -76,7 +76,7 @@ restaurantController.getSignupMyRestaurant = async (req, res) => {
 restaurantController.signupProcess = async (req, res) => {
     // After successful signup, the new member (restaurant) details are stored in the session and the user is redirected to the restaurant menu page.
     try {
-        console.log("POST: controller/signupProcess");
+        console.log("POST: cont/signupProcess");
         assert(req.file, Definer.general_err3); //file - single file
 
         let new_member = req.body;
@@ -92,7 +92,7 @@ restaurantController.signupProcess = async (req, res) => {
         req.session.member = result;
         res.redirect("/resto/products/menu"); //restaurant user bolganligi uchun products menuga redirect
     } catch (error) {
-        console.log(`Error, controller/signupProcess, ${error.message}`);
+        console.log(`Error, cont/signupProcess, ${error.message}`);
         res.json({ state: "fail", message: error.message });
     }
 };
@@ -100,10 +100,10 @@ restaurantController.signupProcess = async (req, res) => {
 restaurantController.getLoginMyRestaurant = async (req, res) => {
     // An async function that renders the login page for restaurants.
     try {
-        console.log("GET: controller/getLoginMyRestaurant");
+        console.log("GET: cont/getLoginMyRestaurant");
         res.render("login-page");
     } catch (error) {
-        console.log(`Error, controller/getLoginMyRestaurant, ${error.message}`);
+        console.log(`Error, cont/getLoginMyRestaurant, ${error.message}`);
         res.json({ state: "fail", message: error.message });
     }
 };
@@ -111,7 +111,7 @@ restaurantController.getLoginMyRestaurant = async (req, res) => {
 restaurantController.loginProcess = async (req, res) => {
     // This function handles the restaurant login process. Once logged in, the restaurant's details are saved in the session and then redirected to the menu page.
     try {
-        console.log("POST: controller/loginProcess");
+        console.log("POST: cont/loginProcess");
         const data = req.body,
             member = new Member(),
             result = await member.loginData(data);
@@ -124,7 +124,7 @@ restaurantController.loginProcess = async (req, res) => {
                 : res.redirect("/resto/products/menu");
         });
     } catch (error) {
-        console.log(`Error, controller/loginProcess, ${error.message}`);
+        console.log(`Error, cont/loginProcess, ${error.message}`);
         res.json({ state: "fail", message: error.message });
     }
 };

@@ -75,7 +75,7 @@ class Like {
                 .exec();
 
             await this.modifyItemLikeCounts(like_ref_id, group_type, -1);
-            return true;
+            return result;
         } catch (err) {
             throw err;
         }
