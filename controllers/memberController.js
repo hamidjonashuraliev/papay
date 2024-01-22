@@ -12,15 +12,11 @@ memberController.signup = async (req, res) => {
         const data = req.body, // Extracts the request body (submitted data).
             member = new Member(), // Instantiates a new Member object.
             new_member = await member.signupData(data); // Calls the signupData method on the Member object, passing the extracted data.
-        // console.log("result::::::::", result);
         const token = memberController.createToken(new_member);
-        // console.log("token::::::::", token);
-
         res.cookie("access_token", token, {
             maxAge: 6 * 3600 * 1000,
             httpOnly: false,
         });
-
         res.json({ state: "success", data: new_member });
         // If successful, it returns a JSON response with the state "success" to FE and the new member's data.
     } catch (error) {
@@ -30,7 +26,6 @@ memberController.signup = async (req, res) => {
         // It ensures the client is informed when something goes wrong.
     }
 };
-
 memberController.login = async (req, res) => {
     try {
         console.log("POST: cont/login requested");
@@ -38,15 +33,12 @@ memberController.login = async (req, res) => {
             member = new Member(),
             result = await member.loginData(data);
         // console.log("result::::::::", result);
-
         const token = memberController.createToken(result);
         // console.log("token::::::::", token);
-
         res.cookie("access_token", token, {
             maxAge: 6 * 3600 * 1000,
             httpOnly: false,
         });
-
         res.json({ state: "success", data: result });
         // On success, sends a JSON response indicating the successful login state and returns the relevant data.
     } catch (error) {
@@ -54,16 +46,13 @@ memberController.login = async (req, res) => {
         res.json({ state: "fail", message: error.message });
     }
 };
-
 memberController.logout = (req, res) => {
     // typically, logging out would involve clearing or invalidating a user's session.
     console.log("GET cont/logout requested");
     res.cookie("access_token", null, { maxAge: 0, httpOnly: true });
     res.json({ state: "success", data: "logout successful" });
 };
-
 // WEB tokens JWT
-
 memberController.createToken = (result) => {
     try {
         const upload_data = {
@@ -71,43 +60,35 @@ memberController.createToken = (result) => {
             mb_nick: result.mb_nick,
             mb_type: result.mb_type,
         };
-
         const token = jwt.sign(upload_data, process.env.SECRET_TOKEN, {
             expiresIn: "6h",
         });
-
         assert.ok(token, Definer.auth_err2);
         return token;
     } catch (err) {
         throw err;
     }
 };
-
 memberController.checkMyAuthentication = (req, res) => {
     try {
         console.log("GET cont/checkMyAuthentication");
         let token = req.cookies["access_token"];
         // console.log("token:::", token);
-
         const member = token
             ? jwt.verify(token, process.env.SECRET_TOKEN)
             : null;
         assert.ok(member, Definer.auth_err2);
-
         res.json({ state: "success", data: member });
     } catch (err) {
         throw err;
     }
 };
-
 memberController.getChosenMember = async (req, res) => {
     try {
         console.log("GET cont/getChosenMember");
         const id = req.params.id;
-
         const member = new Member();
         const result = await member.getChosenMemberData(req.member, id);
-
         res.json({ state: "success", data: result });
     } catch (err) {
         console.log(`ERROR, cont/getChosenMember, ${err.message}`);
@@ -115,25 +96,21 @@ memberController.getChosenMember = async (req, res) => {
     }
 };
 
-memberController.likeMemberChosen = async (req, res) => {
+memberController.updateMember = async (req, res) => {
     try {
-        console.log("POST cont/likeMemberChosen");
+        console.log("GET cont/updateMember");
+        assert.ok(req.member, Definer.auth_err3);
 
-        assert.ok(req.member, Definer.auth_err5);
-
-        const member = new Member(),
-            like_ref_id = req.body.like_ref_id,
-            group_type = req.body.group_type;
-
-        const result = await member.likeChosenItemByMember(
-            req.member,
-            like_ref_id,
-            group_type
+        const member = new Member();
+        const result = await member.updateMemberData(
+            req.member?._id,
+            req.body,
+            req.file
         );
 
         res.json({ state: "success", data: result });
     } catch (err) {
-        console.log(`ERROR, cont/likeMemberChosen, ${err.message}`);
+        console.log(`ERROR, cont/updateMember, ${err.message}`);
         res.json({ state: "fail", message: err.message });
     }
 };
@@ -146,5 +123,23 @@ memberController.retrieveAuthMember = (req, res, next) => {
     } catch (err) {
         console.log(`ERROR, cont/retrieveAuthMember, ${err.message}`);
         next();
+    }
+};
+memberController.likeMemberChosen = async (req, res) => {
+    try {
+        console.log("POST cont/likeMemberChosen");
+        assert.ok(req.member, Definer.auth_err5);
+        const member = new Member(),
+            like_ref_id = req.body.like_ref_id,
+            group_type = req.body.group_type;
+        const result = await member.likeChosenItemByMember(
+            req.member,
+            like_ref_id,
+            group_type
+        );
+        res.json({ state: "succeed", data: result });
+    } catch (err) {
+        console.log(`ERROR, cont/likeMemberChosen, ${err.message}`);
+        res.json({ state: "fail", message: err.message });
     }
 };

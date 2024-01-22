@@ -26,6 +26,9 @@
         "mongoose": "^6.2.10",
         "multer": "^1.4.5-lts.1",
         "nodemon": "^2.0.15",
-        "uuid": "^8.3.2"
+        "react-redux": "^9.1.0",
+        "redux": "^5.0.1",
+        "uuid": "^8.3.2",
+        "socket.io": "^2.3.0"
     }
 }

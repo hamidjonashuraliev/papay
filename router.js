@@ -31,6 +31,13 @@ router.post(
     memberController.likeMemberChosen
 );
 
+router.post(
+    "/member/update",
+    memberController.retrieveAuthMember,
+    uploader_member.single("mb_image"),
+    memberController.updateMember
+  );
+
 // Product-Related Routes
 router.post(
     // Get All Products: The route POST /products is set up to retrieve all products. It first ensures the user is authenticated using retrieveAuthMember from memberController and then calls getAllProducts from productController.
