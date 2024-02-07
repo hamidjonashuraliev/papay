@@ -20,8 +20,10 @@ mongoose.connect(
             console.log("MongoDB connection successed"); // If there's no error, the code proceeds to require the Express application (./app) and starts an HTTP server.
             // console.log(goose);
             // HTTP Server Creation:
-            const app = require("./app"); // The Express application is imported from ./app.
-            const server = http.createServer(app); // An HTTP server is created with the Express application.
+            const server = require("./app"); // The Express application is imported from ./app.
+
+            // const server = http.createServer(app); // An HTTP server is created with the Express application.
+
             let PORT = process.env.PORT || 3003; // The server listens on a port defined in the environment variable PORT or defaults to 3003 if not specified.
             server.listen(PORT, function () {
                 console.log(
